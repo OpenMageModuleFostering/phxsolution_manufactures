@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Phxsolution_Manufactures",
+    "type": "magento-module",
+    "license": "OSLv3.0",
+    "homepage": "",
+    "description": "Manufacturers Commission Manager as name suggests admin can add commission to price, can set logos and notes.",
+    "authors": [
+    {
+        "name": "Prakash Vaniya",
+        "email": "contact@phxsolution.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

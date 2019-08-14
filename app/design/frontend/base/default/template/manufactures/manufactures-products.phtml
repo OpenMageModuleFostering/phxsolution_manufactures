@@ -1,0 +1,118 @@
+<?php
+/*
+/**
+ * PHXSolution Manufactures Commission Manager
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so you can be sent a copy immediately.
+ *
+ * Original code copyright (c) 2008 Irubin Consulting Inc. DBA Varien
+ *
+ * @category   Manufactures Frontend Design Template
+ * @package    Phxsolution_Manufactures
+ * @author     Prakash Vaniya 
+ * @contact    contact@phxsolution.com 
+ * @site       www.phxsolution.com 
+ * @copyright  Copyright (c) 2014 PHXSolution Manufactures
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php if(Mage::helper('manufactures')->getIsEnabled()): ?>
+<div class='manufactures-products-list'>
+<?php
+	$manufactures_id = $this->getRequest()->getParam('id');
+	if($manufactures_id != null && $manufactures_id != '')
+	{
+		$productModel = Mage::getModel('catalog/product');
+		$collection = $productModel->getCollection()
+					->addFieldToFilter('manufacturer', $manufactures_id)
+					->addAttributeToSelect('*');
+		if(count($collection))
+		{
+			echo '<div class="category-products">';
+			$i=0;	$_columnCount=4;
+			foreach ($collection as $_product)
+			{
+				$productId = $_product->getId();
+				$productName = $_product->getName();
+				$productUurl = $_product->getProductUrl();
+				$productSmallImage = $this->helper('catalog/image')->init($_product, 'small_image')->resize(135);
+				
+				if ($i++%$_columnCount==0)
+        		echo '<ul class="products-grid">';
+
+	        		if(($i-1)%$_columnCount==0)
+	        			$firstLastClass = 'first';
+	        		elseif($i%$_columnCount==0)
+	        			$firstLastClass = 'last';
+	        		else
+	        			$firstLastClass = '';
+	        		echo '<li class="item '.$firstLastClass.'">';
+	        			echo '<a href="'.$productUurl.'" title="'.$productName.'" class="product-image">';
+	        				echo '<img src="'.$productSmallImage.'" width="135" height="135" alt="'.$productName.'" />';
+	        			echo '</a>';
+	                	echo '<h2 class="product-name">';
+	                		echo '<a href="'.$productUurl.'" title="'.$productName.'">';
+	                			echo $productName;
+	                		echo '</a>';
+	                	echo '</h2>';
+
+	                	echo Mage::helper('manufactures')->getPriceHtml($_product);
+
+	                	echo '<div class="actions">';
+                    		if($_product->isSaleable()):
+                        		$_url = Mage::helper('checkout/cart')->getAddUrl($_product);
+	                			$setLocation = "setLocation('$_url')";
+                        		echo '<button type="button" title="'.$this->__('Add to Cart').'" class="button btn-cart" onclick="'.$setLocation.'">';
+                        			echo '<span><span>'.$this->__('Add to Cart').'</span></span>';
+                        		echo '</button>';
+                    		else:
+                        		echo '<p class="availability out-of-stock">';
+                        			echo '<span>'.$this->__('Out of stock').'</span>';
+                        		echo '</p>';
+                    		endif;
+                    		echo '<ul class="add-to-links">';
+	                        	if ($this->helper('wishlist')->isAllow()):
+	                            	$wishlistAddUrl = $this->helper('wishlist')->getAddUrl($_product);
+	                            	echo "<li>";
+	                            		echo "<a href='".$wishlistAddUrl."' class='link-wishlist'>";
+	                            			echo $this->__('Add to Wishlist');
+	                            		echo "</a>";
+	                            	echo "</li>";
+	                        	endif;
+	                        	if($_compareUrl=Mage::helper('catalog/product_compare')->getAddUrl($_product)):
+	                            	echo '<li>';
+	                            		echo '<span class="separator">|</span> <a href="'.$_compareUrl.'" class="link-compare">'.$this->__('Add to Compare').'</a>';
+	                            	echo '</li>';
+	                        	endif;
+                    		echo '</ul>';
+                		echo '</div>';
+					echo '</li>';
+				
+				if ($i%$_columnCount==0 || $i==count($collection))
+        		echo '</ul>';
+        	}//endforeach
+        }
+		else
+		{
+			echo '<p class="note-msg">';
+				echo $this->__('There are no products matching the selection.');
+			echo '</p>';
+		}
+	}
+	else
+	{
+		echo '<p class="note-msg">';
+			echo $this->__('Sufficient parameters not found.');
+		echo '</p>';
+	}
+?>
+</div>
+<?php endif; ?>

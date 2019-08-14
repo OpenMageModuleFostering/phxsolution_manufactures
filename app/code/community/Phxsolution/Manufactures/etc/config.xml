@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * PHXSolution Manufactures Commission Manager
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so you can be sent a copy immediately.
+ *
+ * Original code copyright (c) 2008 Irubin Consulting Inc. DBA Varien
+ *
+ * @category   Module Configuration
+ * @package    Phxsolution_Manufactures
+ * @author     Prakash Vaniya 
+ * @contact    contact@phxsolution.com 
+ * @site       www.phxsolution.com 
+ * @copyright  Copyright (c) 2014 PHXSolution Manufactures
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Phxsolution_Manufactures>
+            <version>0.1.0</version>
+        </Phxsolution_Manufactures>
+    </modules>
+    <frontend>
+        <!-- <routers>
+            <manufactures>
+                <use>standard</use>
+                <args>
+                    <module>Phxsolution_Manufactures</module>
+                    <frontName>manufactures</frontName>
+                </args>
+            </manufactures>
+        </routers> -->
+        <layout>
+            <updates>
+                <manufactures>
+                    <file>manufactures.xml</file>
+                </manufactures>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+			<manufactures>
+				<use>admin</use>
+				<args>
+					<module>Phxsolution_Manufactures</module>
+					<frontName>manufactures</frontName>
+				</args>
+			</manufactures>
+        </routers>
+    </admin>
+    <adminhtml>
+		<menu>
+			<manufactures module="manufactures">
+                <depends>
+                    <config>manufactures_section/settings/enabled</config>
+                </depends>
+				<title>Manufacturers</title>
+				<sort_order>71</sort_order>               
+				<children>
+					<items module="manufactures">
+						<title>Manufacturers List</title>
+						<sort_order>0</sort_order>
+						<action>manufactures/adminhtml_manufactures</action>
+					</items>
+				</children>
+			</manufactures>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Phxsolution_Manufactures>
+							<title>Manufactures Module</title>
+							<sort_order>10</sort_order>
+						</Phxsolution_Manufactures>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <manufactures_section translate="title" module="manufactures">
+                                            <title>Manufactures Commission Manager</title>
+                                        </manufactures_section>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+		<layout>
+			<updates>
+				<manufactures>
+					<file>manufactures.xml</file>
+				</manufactures>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+		<models>
+			<catalog>
+				<rewrite>
+                    <product_type_price>Phxsolution_Manufactures_Model_Product_Type_Price</product_type_price>
+					<product_type_configurable_price>Phxsolution_Manufactures_Model_Product_Type_Configurable_Price</product_type_configurable_price>
+					<product_type_grouped_price>Phxsolution_Manufactures_Model_Product_Type_Grouped_Price</product_type_grouped_price>
+					<product>Phxsolution_Manufactures_Model_Product</product>
+				</rewrite>
+			</catalog>
+			
+            <manufactures>
+                <class>Phxsolution_Manufactures_Model</class>
+                <resourceModel>manufactures_mysql4</resourceModel>
+            </manufactures>
+            <manufactures_mysql4>
+                <class>Phxsolution_Manufactures_Model_Mysql4</class>
+                <entities>
+                    <manufactures>
+                        <table>manufactures</table>
+                    </manufactures>
+                </entities>
+            </manufactures_mysql4>
+        </models>
+        <resources>
+            <manufactures_setup>
+                <setup>
+                    <module>Phxsolution_Manufactures</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </manufactures_setup>
+            <manufactures_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </manufactures_write>
+            <manufactures_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </manufactures_read>
+        </resources>
+        <blocks>
+            <manufactures>
+                <class>Phxsolution_Manufactures_Block</class>
+            </manufactures>
+			<adminhtml>
+			   	<rewrite>
+                	<catalog_product_grid>Phxsolution_Manufactures_Block_Adminhtml_Catalog_Product_Grid</catalog_product_grid>
+               	</rewrite>
+           </adminhtml>
+        </blocks>
+        <helpers>
+            <manufactures>
+                <class>Phxsolution_Manufactures_Helper</class>
+            </manufactures>
+			<tax>
+                <rewrite>
+                    <data>Phxsolution_Manufactures_Helper_Profit_Data</data>
+                </rewrite>
+            </tax>
+        </helpers>
+    </global>
+    <default>
+        <manufactures_section>
+            <settings>
+                <enabled>1</enabled>
+                <attribute_identifier>210</attribute_identifier>
+            </settings>
+        </manufactures_section>
+    </default>
+</config>

@@ -1,0 +1,77 @@
+<?php
+/*
+/**
+ * PHXSolution Manufactures Commission Manager
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so you can be sent a copy immediately.
+ *
+ * Original code copyright (c) 2008 Irubin Consulting Inc. DBA Varien
+ *
+ * @category   Manufactures Frontend Design Template
+ * @package    Phxsolution_Manufactures
+ * @author     Prakash Vaniya 
+ * @contact    contact@phxsolution.com 
+ * @site       www.phxsolution.com 
+ * @copyright  Copyright (c) 2014 PHXSolution Manufactures
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php if(Mage::helper('manufactures')->getIsEnabled()): ?>
+<style type='text/css'>
+    .manufactures-list {margin: 25px;}
+    .manufactures-list ul li {display: inline; margin: 10px; float: left;}
+</style>
+<h4>
+    <?php echo $this->__('Manufacturers List') ?>
+</h4>
+<?php
+    $manufactures = Mage::getModel('manufactures/manufactures')->getCollection();
+    if(count($manufactures))
+    {
+        echo "<div class='manufactures-list'>";
+        echo "<ul>";
+        foreach ($manufactures as $key => $value)
+        {
+            $manufactures_id = $value->getOptionId();
+            $getManufacturesLabel = Mage::helper('manufactures')->getManufacturesLabel($manufactures_id);
+            $noImage = Mage::getBaseUrl('media').Mage::helper('manufactures')->getNoImage();
+
+            if($image = $value->getImage())
+            {
+                $imageUrl = Mage::getBaseUrl('media').$image;
+                $liContent = "<img src='$imageUrl' height='75' width='75' />";
+            }
+            elseif(Mage::helper('manufactures')->checkImage($noImage))
+            {
+                $liContent = "<img src='$noImage' height='75' width='75' />";                    
+            }
+            else
+            {
+                $liContent = "<span>".$getManufacturesLabel."</span>";
+            }
+            $productsUrl = Mage::getUrl('manufactures').'products?id='.$manufactures_id;           
+            echo "<li class='manufactures_id_".$manufactures_id."'>";
+                echo "<a href='$productsUrl' title='$getManufacturesLabel' class='$noImage'>";
+                    echo $liContent;
+                echo "</a>";
+            echo "</li>";
+        }
+        echo "</ul>";
+        echo "</div>";
+    }
+    else
+	{
+		echo '<p class="note-msg">';
+			echo $this->__('There are no item in list.');
+		echo '</p>';
+	}
+?>
+<?php endif; ?>
