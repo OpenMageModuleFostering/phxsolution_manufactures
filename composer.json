@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/Phxsolution_Manufactures",
+    "name": "openmage-module-fostering\/phxsolution_manufactures",
     "type": "magento-module",
-    "license": "OSLv3.0",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "Manufacturers Commission Manager as name suggests admin can add commission to price, can set logos and notes.",
     "authors": [

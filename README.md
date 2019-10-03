@@ -1,3 +1,5 @@
+
+
 ## Original Package Description
 
 Manufacturers Commission Manager as name suggests admin can add commission to price, can set logos and notes.
